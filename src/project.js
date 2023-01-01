@@ -1,4 +1,5 @@
 import { pubsub } from "./pubsub";
+import { Task } from "./task";
 
 class Project {
     constructor (projectName) {
@@ -10,8 +11,14 @@ class Project {
         return this.projectName;
     }
 
-    addTask(newTask) {
-        this.taskArray.push(newTask)
+    addTask(taskName, descritpion) {
+        this.taskArray.push(new Task(taskName, descritpion, this.taskArray.length))
+        pubsub.publish('taskAdded', this.taskArray)
+    }
+
+    removeTask(id) {
+        this.taskArray[id] = null
+        this.taskArray = this.taskArray.filter(n => n)
         pubsub.publish('taskAdded', this.taskArray)
     }
 }

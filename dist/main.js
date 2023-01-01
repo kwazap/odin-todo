@@ -16,7 +16,7 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _project__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./project */ \"./src/project.js\");\n/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./render */ \"./src/render.js\");\n\n\n\n(0,_render__WEBPACK_IMPORTED_MODULE_1__.render)()\nconst project1 = new _project__WEBPACK_IMPORTED_MODULE_0__.Project('name')\nproject1.addTask('AAAAAAAA')\nproject1.addTask('BBBBBBB')\nproject1.addTask('c')\n\n//# sourceURL=webpack://odin-todo/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _project__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./project */ \"./src/project.js\");\n/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./render */ \"./src/render.js\");\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n\n\n\n\n(0,_render__WEBPACK_IMPORTED_MODULE_1__.render)()\nconst project1 = new _project__WEBPACK_IMPORTED_MODULE_0__.Project('name')\nproject1.addTask('newtask', 'descr')\nproject1.addTask('newtask', 'descsdar')\nproject1.addTask('AAAA', 'bbbbb')\n\nproject1.removeTask(1)\n\n//# sourceURL=webpack://odin-todo/./src/index.js?");
 
 /***/ }),
 
@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _pro
   \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Project\": () => (/* binding */ Project)\n/* harmony export */ });\n/* harmony import */ var _pubsub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pubsub */ \"./src/pubsub.js\");\n\n\nclass Project {\n    constructor (projectName) {\n        this.projectName = projectName;\n        this.taskArray = []\n    }\n\n    get name() {\n        return this.projectName;\n    }\n\n    addTask(newTask) {\n        this.taskArray.push(newTask)\n        _pubsub__WEBPACK_IMPORTED_MODULE_0__.pubsub.publish('taskAdded', this.taskArray)\n    }\n}\n\n\n\n\n//# sourceURL=webpack://odin-todo/./src/project.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Project\": () => (/* binding */ Project)\n/* harmony export */ });\n/* harmony import */ var _pubsub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pubsub */ \"./src/pubsub.js\");\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n\n\n\nclass Project {\n    constructor (projectName) {\n        this.projectName = projectName;\n        this.taskArray = []\n    }\n\n    get name() {\n        return this.projectName;\n    }\n\n    addTask(taskName, descritpion) {\n        this.taskArray.push(new _task__WEBPACK_IMPORTED_MODULE_1__.Task(taskName, descritpion, this.taskArray.length))\n        _pubsub__WEBPACK_IMPORTED_MODULE_0__.pubsub.publish('taskAdded', this.taskArray)\n    }\n\n    removeTask(id) {\n        this.taskArray[id] = null\n        this.taskArray = this.taskArray.filter(n => n)\n        _pubsub__WEBPACK_IMPORTED_MODULE_0__.pubsub.publish('taskAdded', this.taskArray)\n    }\n}\n\n\n\n\n//# sourceURL=webpack://odin-todo/./src/project.js?");
 
 /***/ }),
 
@@ -46,7 +46,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render)\n/* harmony export */ });\n/* harmony import */ var _pubsub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pubsub */ \"./src/pubsub.js\");\n\n\nfunction render(what) {\n    console.log('render log:', what)\n    _pubsub__WEBPACK_IMPORTED_MODULE_0__.pubsub.subscribe('taskAdded', render)\n}\n\n//# sourceURL=webpack://odin-todo/./src/render.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": () => (/* binding */ render)\n/* harmony export */ });\n/* harmony import */ var _pubsub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pubsub */ \"./src/pubsub.js\");\n\n\nfunction render(what) {\n    \n    if (!what) {\n    } else {\n        if (document.querySelector('.cc')) {\n            document.querySelector('.cc').remove()\n        }\n        let result = Object.values(what)\n        const cc = document.createElement('div')\n        cc.className = 'cc'\n        const container = document.querySelector('.container')\n        container.appendChild(cc)\n        result.forEach(element => {\n            const div = document.createElement('div')\n            div.textContent = element.taskName\n            cc.appendChild(div)\n        });\n    }\n    _pubsub__WEBPACK_IMPORTED_MODULE_0__.pubsub.subscribe('taskAdded', render)\n}\n\n//# sourceURL=webpack://odin-todo/./src/render.js?");
+
+/***/ }),
+
+/***/ "./src/task.js":
+/*!*********************!*\
+  !*** ./src/task.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Task\": () => (/* binding */ Task)\n/* harmony export */ });\nclass Task {\n    constructor(taskName, descritpion, id){\n        this.taskName = taskName\n        this.descritpion = descritpion\n        this.id = id\n    }\n}\n\n\n\n\n\n//# sourceURL=webpack://odin-todo/./src/task.js?");
 
 /***/ })
 

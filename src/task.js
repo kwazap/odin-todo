@@ -1,9 +1,11 @@
 class Task {
-    constructor (taskName){
+    constructor(taskName, descritpion, id){
         this.taskName = taskName
+        this.descritpion = descritpion
+        this.id = id
     }
 }
 
-const newTask = new Task('a')
 
-export {newTask}
+
+export {Task}

@@ -20,3 +20,8 @@ export function render(what) {
     }
     pubsub.subscribe('taskAdded', render)
 }
+
+export function renderTask(...args) {
+    console.log('renderTask:', args[0], args[1]);
+    pubsub.subscribe('taskUpdated', renderTask)
+}

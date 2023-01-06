@@ -1,0 +1,39 @@
+body, html {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 15fr;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    background-color: rgb(182, 182, 182);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    gap: 32px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.header {
+    background-color: rgb(196, 60, 26);
+    grid-column: 1 / 3;
+}

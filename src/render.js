@@ -11,13 +11,23 @@ export function renderProjects(newProjectsArray) {
         const newElement = document.createElement('div')
         newElement.textContent = element.name
         projects.appendChild(newElement)
+        newElement.addEventListener('click', function () {
+            renderProject(element.taskArray)            
+        })
     });
     pubsub.subscribe('projectsChanged', renderProjects)    
 }
 
-export function renderProject(what) {
-    
-    
+export function renderProject(newTaskArray) {
+    console.log(newTaskArray);
+    clearTasks()
+    newTaskArray = newTaskArray || []
+    console.log(newTaskArray, 'renderProject print');
+    newTaskArray.forEach(element => {
+        const newElement = document.createElement('div')
+        newElement.textContent = element.taskName
+        content.appendChild(newElement)
+    })
     pubsub.subscribe('taskAdded', renderProject)
 }
 
@@ -45,5 +55,7 @@ function clearSidebar() {
 }
 
 function clearTasks() {
-    
+    Array.from(content.children).forEach(element => {
+        element.remove()
+    })
 }

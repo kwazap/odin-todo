@@ -4,6 +4,8 @@ import { Task } from "./task"
 import { Projects } from "./projects"
 import "./style.css"
 
+
+// empty calls for pubsub init
 renderProject()
 renderTask()
 renderProjects()
@@ -16,6 +18,7 @@ project1.removeTask(1)
 project1.taskArray[0].updateTask('a', 'b', 'c', 'd')
 
 const project2 = new Project('ime')
+project2.addTask('xxxx', 'bxxxxxbbbb')
 const project3 = new Project('asdasddsadasd')
 
 // console.log(project1.taskArray[0], 'aaaaaa');

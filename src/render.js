@@ -1,27 +1,49 @@
 import { pubsub } from "./pubsub"
 
-export function render(what) {
+//DOM cache
+const content = document.querySelector('.content')
+const projects = document.querySelector('.projects')
+
+export function renderProjects(newProjectsArray) {
+    clearSidebar()
+    newProjectsArray = newProjectsArray || []
+    newProjectsArray.forEach(element => {
+        const newElement = document.createElement('div')
+        newElement.textContent = element.name
+        projects.appendChild(newElement)
+    });
+    pubsub.subscribe('projectsChanged', renderProjects)    
+}
+
+export function renderProject(what) {
     
-    if (!what) {
-    } else {
-        if (document.querySelector('.cc')) {
-            document.querySelector('.cc').remove()
-        }
-        let result = Object.values(what)
-        const cc = document.createElement('div')
-        cc.className = 'cc'
-        const container = document.querySelector('.container')
-        container.appendChild(cc)
-        result.forEach(element => {
-            const div = document.createElement('div')
-            div.textContent = element.taskName
-            cc.appendChild(div)
-        });
-    }
-    pubsub.subscribe('taskAdded', render)
+    
+    pubsub.subscribe('taskAdded', renderProject)
+}
+
+export function renderSidebar(){
+
+
+
+}
+
+export function renderHome() {
+    
+
+
 }
 
 export function renderTask(...args) {
-    console.log('renderTask:', args[0], args[1]);
+    // console.log('renderTask:', args[0], args[1]);
     pubsub.subscribe('taskUpdated', renderTask)
+}
+
+function clearSidebar() {
+    Array.from(projects.children).forEach(element => {
+        element.remove()
+    })
+}
+
+function clearTasks() {
+    
 }

@@ -1,10 +1,13 @@
 import { pubsub } from "./pubsub";
 import { Task } from "./task";
+import { Projects } from "./projects";
 
 class Project {
     constructor (projectName) {
         this.projectName = projectName;
         this.taskArray = []
+        Projects.projectsArray.push(this)
+        pubsub.publish('projectsChanged', Projects.projectsArray)
     }
 
     get name() {

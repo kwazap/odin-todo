@@ -37,3 +37,11 @@ body, html {
     background-color: rgb(196, 60, 26);
     grid-column: 1 / 3;
 }
+
+.project-entry {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    margin: 8px 0px 8px 0px;
+    cursor: grab;
+}

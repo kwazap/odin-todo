@@ -14,6 +14,7 @@ export const pubsub = {
             }
             this.events[eventName].push(fn)
         }
+        // console.log(this.events, this.events['projectsChanged'])
     },
 
     publish(eventName, value) {

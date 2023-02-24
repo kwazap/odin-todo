@@ -45,3 +45,22 @@ body, html {
     margin: 8px 0px 8px 0px;
     cursor: grab;
 }
+
+.task, .add-new {
+    width: calc(100% - 16px);
+    height: 40px;
+    font-size: 24px;
+    font-style: bold;
+    border-style: solid;
+    border-radius: 8px;
+    margin: 8px;
+    box-sizing: border-box;
+}
+
+.add-new {
+    height: fit-content;
+}
+
+.new-task-menu {
+    display: none;
+}

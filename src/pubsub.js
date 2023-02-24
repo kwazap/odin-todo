@@ -10,7 +10,10 @@ export const pubsub = {
             for (let i = 0; i < this.events[eventName].length; i++) {
                 if (this.events[eventName][i] == fn) {
                     return
-                }                
+                }
+                if (this.events[eventName][i].name == fn.name) {
+                    return
+                }
             }
             this.events[eventName].push(fn)
         }

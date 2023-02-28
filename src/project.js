@@ -18,15 +18,17 @@ class Project {
     }
 
     addTask([taskName, descritpion, datetime]) {
-        this.idTicker += 1
         this.taskArray.push(new Task(taskName, descritpion, this.idTicker, datetime))
-        pubsub.publish('taskUpdated', this.taskArray)
+        this.idTicker += 1
+        pubsub.publish('taskUpdated', this)
     }
 
     removeTask(id) {
+        console.log(id, this.taskArray, this.taskArray[id]);
         this.taskArray[id] = null
         this.taskArray = this.taskArray.filter(n => n)
-        pubsub.publish('taskUpdated', this.taskArray)
+        pubsub.publish('taskUpdated', this)
+        console.log(id, this.taskArray, this.taskArray[id]);
     }
 }
 

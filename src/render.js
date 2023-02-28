@@ -12,7 +12,6 @@ const taskTemplate = document.querySelector('.task-template')
 //pubsub init
 pubsub.subscribe('projectsChanged', renderProjects)
 pubsub.subscribe('taskUpdated', renderProject)
-pubsub.subscribe('taskUpdated', renderTask)
 
 
 //Always present event listeners
@@ -50,24 +49,26 @@ export function renderProjects(newProjectsArray) {
         newElement.textContent = element.name
         projects.appendChild(newElement)
         newElement.addEventListener('click', function () {
-            renderProject(element.taskArray)            
+            renderProject(element)            
         })
     }); 
 }
 
-export function renderProject(newTaskArray) {
+export function renderProject(Project) {
     clearTasks()
-    newTaskArray = newTaskArray || []
-    newTaskArray.forEach(element => {
-        renderTask(element)
-    })
+    const newTaskArray = Project.taskArray
+    for (let i = 0; i < newTaskArray.length; i++) {
+        const element = newTaskArray[i]
+        renderTask(element, Project.projectName, i)
+    }
 }
 
-function renderTask(element) {
+function renderTask(element, projectName, i) {
     const newElement = taskTemplate.cloneNode(true)
     newElement.className = 'task'
     newElement.querySelector('span').textContent = element.taskName
-    newElement.setAttribute('id', element.id)
+    newElement.setAttribute('id', i)
+    newElement.setAttribute('project', projectName)
     newElement.querySelector('span').addEventListener('click', toggleTaskEditMenu)
     newElement.querySelector('.task-remove-button').addEventListener('click', removeTask)
     content.appendChild(newElement)
@@ -83,14 +84,9 @@ function toggleTaskEditMenu() {
 }
 
 function removeTask() {
-    console.log(this.parentElement.parentElement.getAttribute('id'));
-    pubsub.publish('taskRemoved', this.parentElement.parentElement.getAttribute('id'))
-}
-
-export function renderHome() {
-    
-
-
+    const taskDOM = this.parentElement.parentElement
+    pubsub.publish(`taskRemoved${taskDOM.getAttribute('project')}`, taskDOM.getAttribute('id'))
+    console.log(taskDOM.getAttribute('id'), taskDOM.getAttribute('project'));
 }
 
 function clearSidebar() {

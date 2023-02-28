@@ -14,7 +14,6 @@ class Task {
         this.descritpion = args[1] || this.descritpion
         this.priority = args[2] || this.priority
         this.dueDate = args[3] || this.dueDate
-        pubsub.publish('taskUpdated', [this.id, this.descritpion])
     }    
 }
 

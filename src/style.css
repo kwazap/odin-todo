@@ -48,7 +48,7 @@ body, html {
 
 .task, .add-new {
     width: calc(100% - 16px);
-    height: 40px;
+    height: min-content;
     font-size: 24px;
     font-style: bold;
     border-style: solid;
@@ -62,5 +62,18 @@ body, html {
 }
 
 .new-task-menu {
+    display: none;
+}
+
+.task-template{
+    display: none;
+}
+
+.task-minimized{
+    display: flex;
+    flex-direction: row;
+}
+
+.task-details {
     display: none;
 }

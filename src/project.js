@@ -7,16 +7,19 @@ class Project {
         this.projectName = projectName;
         this.taskArray = []
         Projects.projectsArray.push(this)
+        this.idTicker = 0
         pubsub.publish('projectsChanged', Projects.projectsArray)
         pubsub.subscribe(`taskAddedto${this.projectName}`, this.addTask.bind(this))
+        pubsub.subscribe(`taskRemoved${this.projectName}`, this.removeTask.bind(this))
     }
 
     get name() {
         return this.projectName;
     }
 
-    addTask([taskName, descritpion]) {
-        this.taskArray.push(new Task(taskName, descritpion, this.taskArray.length))
+    addTask([taskName, descritpion, datetime]) {
+        this.idTicker += 1
+        this.taskArray.push(new Task(taskName, descritpion, this.idTicker, datetime))
         pubsub.publish('taskUpdated', this.taskArray)
     }
 

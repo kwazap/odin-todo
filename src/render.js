@@ -52,6 +52,7 @@ export function renderProjects(newProjectsArray) {
 
 export function renderProject(Project) {
     clearTasks()
+    newTaskMenu.querySelector('#project').value = Project.projectName
     const newTaskArray = Project.taskArray
     for (let i = 0; i < newTaskArray.length; i++) {
         const element = newTaskArray[i]

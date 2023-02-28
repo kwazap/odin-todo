@@ -6,7 +6,6 @@ const projects = document.querySelector('.projects')
 const newTaskBtn = document.querySelector('.new-button')
 const newTaskMenu = document.querySelector('.new-task-menu')
 const newTaskMenuAddBtn = document.querySelector('.new-task-menu-add')
-const newTaskMenuCancelBtn = document.querySelector('.new-task-menu-cancel')
 const taskTemplate = document.querySelector('.task-template')
 
 //pubsub init
@@ -15,13 +14,15 @@ pubsub.subscribe('taskUpdated', renderProject)
 
 
 //Always present event listeners
-newTaskBtn.addEventListener('click', openNewTaskMenu)
-newTaskMenuCancelBtn.addEventListener('click', closeNewTaskMenu)
+newTaskBtn.addEventListener('click', toggleNewTaskMenu)
 newTaskMenuAddBtn.addEventListener('click', addNewTask)
 
-function openNewTaskMenu() {
-    console.log('addnewtask')
-    newTaskMenu.style.display = 'block'   
+function toggleNewTaskMenu() {
+    if (newTaskMenu.style.display) {
+        newTaskMenu.style.display = ''   
+    } else {
+        newTaskMenu.style.display = 'block'
+    }
 }
 
 function addNewTask() {
@@ -34,11 +35,6 @@ function addNewTask() {
     ]
     console.log('sending to project', taskArgumentArray, targetProject);
     pubsub.publish(`taskAddedto${targetProject}`, taskArgumentArray)
-}
-
-function closeNewTaskMenu() {
-    console.log('cancel');
-    newTaskMenu.style.display = 'none'
 }
 
 export function renderProjects(newProjectsArray) {

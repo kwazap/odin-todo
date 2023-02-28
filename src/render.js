@@ -86,7 +86,6 @@ function toggleTaskEditMenu() {
 function removeTask() {
     const taskDOM = this.parentElement.parentElement
     pubsub.publish(`taskRemoved${taskDOM.getAttribute('project')}`, taskDOM.getAttribute('id'))
-    console.log(taskDOM.getAttribute('id'), taskDOM.getAttribute('project'));
 }
 
 function clearSidebar() {

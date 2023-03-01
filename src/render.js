@@ -25,7 +25,8 @@ function toggleNewTaskMenu() {
     }
 }
 
-function addNewTask() {
+function addNewTask(e) {
+    e.preventDefault()
     // [name, description, date, priority]
     const targetProject = document.querySelector('#project').value
     const taskArgumentArray = [
@@ -34,6 +35,7 @@ function addNewTask() {
         new Date(document.querySelector('#datetime-local').value)
     ]
     console.log('sending to project', taskArgumentArray, targetProject);
+    console.log(this);
     pubsub.publish(`taskAddedto${targetProject}`, taskArgumentArray)
 }
 

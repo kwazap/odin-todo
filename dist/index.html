@@ -32,9 +32,9 @@
                     <input type="text" placeholder="Project" id="project">
                     <input type="date" name="" id="datetime-local">
                     <div class="radio-group">
-                        <input type="radio" name="priority" value="1" checked>
-                        <input type="radio" name="priority" value="2">
-                        <input type="radio" name="priority" value="3">
+                        <input type="radio" name="new-priority" value="1" checked>
+                        <input type="radio" name="new-priority" value="2">
+                        <input type="radio" name="new-priority" value="3">
                     </div>
                     <button class="new-task-menu-add">Add</button>
                 </form>
@@ -47,17 +47,17 @@
                     <input type="checkbox"></button>
                     <button class="task-remove-button">Remove</button>
                 </div>
-                <div class="task-details">
-                    <input type="text" placeholder="Name" id="taskName">
+                <form class="task-details">
                     <input type="text" placeholder="Description" id="taskDescription">
-                    <input type="date" name="" id="datetime-local">
+                    <input type="date" name="" id="datetime-local" placeholder="12/12/1212"
+                    onfocus="(this.type='date')" onblur="(this.type='text')">
                     <div class="radio-group">
                         <input type="radio" name="priority" value="1" checked>
                         <input type="radio" name="priority" value="2">
                         <input type="radio" name="priority" value="3">
                     </div>
                     <button>Save</button>
-                </div>
+                </form>
             </div>
             <div class="task-list"></div>
             <div class="content"></div>

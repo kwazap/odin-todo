@@ -16,8 +16,8 @@ class Project {
         return this.projectName;
     }
 
-    addTask([taskName, descritpion, datetime]) {
-        this.taskArray.push(new Task(taskName, descritpion, this.taskArray.length, datetime))
+    addTask([taskName, descritpion, datetime, priority]) {
+        this.taskArray.push(new Task(taskName, descritpion, datetime, priority))
         pubsub.publish('taskUpdated', this)
     }
 

@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import { pubsub } from "./pubsub"
 
 //DOM cache
@@ -23,6 +24,7 @@ function toggleNewTaskMenu() {
     } else {
         newTaskMenu.style.display = 'block'
     }
+    document.querySelector('.new-task-menu #datetime-local').value = format(new Date(), 'yyyy-MM-dd')
 }
 
 function addNewTask(e) {
@@ -32,10 +34,11 @@ function addNewTask(e) {
     const taskArgumentArray = [
         document.querySelector('#taskName').value,
         document.querySelector('#taskDescription').value,
-        new Date(document.querySelector('#datetime-local').value)
+        new Date(document.querySelector('#datetime-local').value),
+        document.querySelector('input[name="new-priority"]:checked').value
     ]
-    console.log('sending to project', taskArgumentArray, targetProject);
-    console.log(this);
+    console.log(taskArgumentArray)
+    // console.log('sending to project', taskArgumentArray, targetProject);
     pubsub.publish(`taskAddedto${targetProject}`, taskArgumentArray)
 }
 
@@ -64,10 +67,15 @@ export function renderProject(Project) {
 
 function renderTask(element, projectName, i) {
     const newElement = taskTemplate.cloneNode(true)
+    const dateString = format(element.dueDate, 'yyyy-MM-dd')
     newElement.className = 'task'
+    newElement.querySelector('.task-date').textContent = dateString
+    newElement.querySelector('#datetime-local').value = dateString
     newElement.querySelector('span').textContent = element.taskName
+    newElement.querySelector('#taskDescription').value = element.descritpion
     newElement.setAttribute('id', i)
     newElement.setAttribute('project', projectName)
+    newElement.querySelector(`input[value="${element.priority}"]`).setAttribute('checked', true)
     newElement.querySelector('span').addEventListener('click', toggleTaskEditMenu)
     newElement.querySelector('.task-remove-button').addEventListener('click', removeTask)
     content.appendChild(newElement)

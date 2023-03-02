@@ -1,12 +1,11 @@
 import { pubsub } from "./pubsub"
 
 class Task {
-    constructor(taskName, descritpion, id, priority, dueDate){
+    constructor(taskName, descritpion, dueDate, priority){
         this.taskName = taskName
         this.descritpion = descritpion
-        this.id = id
-        this.priority = priority || 1
         this.dueDate = dueDate
+        this.priority = priority || 1
     }
 
     updateTask(...args) {

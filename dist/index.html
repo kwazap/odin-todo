@@ -26,17 +26,18 @@
         <div class="content-wrapper">
             <div class="add-new"> 
                 <span class="new-button"> Add New Task</span>
-                <form class="new-task-menu">
-                    <input type="text" placeholder="Name" id="taskName">
-                    <input type="text" placeholder="Description" id="taskDescription">
+                <form action="" method="post" class="new-task-menu">
+                    <input type="text" placeholder="Name" id="taskName" required>
+                    <input type="text" placeholder="Description" id="taskDescription" required>
                     <input type="text" placeholder="Project" id="project">
-                    <input type="date" name="" id="datetime-local">
+                    <input type="date" name="date" id="datetime-local"
+                    min="2020-01-01" max="2030-01-01" required />
                     <div class="radio-group">
                         <input type="radio" name="new-priority" value="1" checked>
                         <input type="radio" name="new-priority" value="2">
                         <input type="radio" name="new-priority" value="3">
                     </div>
-                    <button class="new-task-menu-add">Add</button>
+                    <button type="submit" class="new-task-menu-add">Add</button>
                 </form>
             </div>
             <div class="task-template">
@@ -49,8 +50,8 @@
                 </div>
                 <form class="task-details">
                     <input type="text" placeholder="Description" id="taskDescription">
-                    <input type="date" name="" id="datetime-local" placeholder="12/12/1212"
-                    onfocus="(this.type='date')" onblur="(this.type='text')">
+                    <input type="date" name="date" id="datetime-local"
+                    min="2020-01-01" max="2030-01-01" required>
                     <div class="radio-group">
                         <input type="radio" name="edit-priority" value="1" checked>
                         <input type="radio" name="edit-priority" value="2">

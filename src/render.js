@@ -6,7 +6,6 @@ const content = document.querySelector('.task-list')
 const projects = document.querySelector('.projects')
 const newTaskBtn = document.querySelector('.new-button')
 const newTaskMenu = document.querySelector('.new-task-menu')
-const newTaskMenuAddBtn = document.querySelector('.new-task-menu-add')
 const taskTemplate = document.querySelector('.task-template')
 
 //pubsub init
@@ -16,7 +15,8 @@ pubsub.subscribe('taskUpdated', renderProject)
 
 //Always present event listeners
 newTaskBtn.addEventListener('click', toggleNewTaskMenu)
-newTaskMenuAddBtn.addEventListener('click', addNewTask)
+// newTaskMenuAddBtn.addEventListener('click', addNewTask)
+newTaskMenu.addEventListener('submit', addNewTask)
 
 function toggleNewTaskMenu() {
     if (newTaskMenu.style.display) {
@@ -78,13 +78,13 @@ function renderTask(element, projectName, i) {
     newElement.querySelector(`input[value="${element.priority}"]`).setAttribute('checked', true)
     newElement.querySelector('span').addEventListener('click', toggleTaskEditMenu)
     newElement.querySelector('.task-remove-button').addEventListener('click', removeTask)
-    newElement.querySelector('.save-button').addEventListener('click', saveTaskChanges)
+    newElement.querySelector('.task-details').addEventListener('submit', saveTaskChanges)
     content.appendChild(newElement)
 }
 
 function saveTaskChanges(e) {
     e.preventDefault()
-    const taskDOM = this.parentElement.parentElement
+    const taskDOM = e.target.parentElement
     const targetProject = taskDOM.getAttribute('project')
     const id = taskDOM.getAttribute('id')
     //[id, name, desc, date, prio]

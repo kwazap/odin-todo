@@ -47,7 +47,7 @@ export function renderProjects(newProjectsArray) {
     newProjectsArray = newProjectsArray || []
     newProjectsArray.forEach(element => {
         const newElement = document.createElement('div')
-        newElement.textContent = element.name
+        newElement.textContent = element.projectName
         projects.appendChild(newElement)
         newElement.addEventListener('click', function () {
             renderProject(element)            
@@ -78,7 +78,23 @@ function renderTask(element, projectName, i) {
     newElement.querySelector(`input[value="${element.priority}"]`).setAttribute('checked', true)
     newElement.querySelector('span').addEventListener('click', toggleTaskEditMenu)
     newElement.querySelector('.task-remove-button').addEventListener('click', removeTask)
+    newElement.querySelector('.save-button').addEventListener('click', saveTaskChanges)
     content.appendChild(newElement)
+}
+
+function saveTaskChanges(e) {
+    e.preventDefault()
+    const taskDOM = this.parentElement.parentElement
+    const targetProject = taskDOM.getAttribute('project')
+    //[id, name, desc, date, prio]
+    const editedTaskArguments = [
+        taskDOM.getAttribute('id'),
+        taskDOM.querySelector('.task-name').textContent,
+        taskDOM.querySelector('#taskDescription').value,
+        new Date(taskDOM.querySelector('#datetime-local').value),
+        taskDOM.querySelector('input[name="edit-priority"]:checked').value
+    ]
+    pubsub.publish(`taskUpdated${targetProject}`, editedTaskArguments)
 }
 
 function toggleTaskEditMenu() {

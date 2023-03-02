@@ -22,6 +22,3 @@ project3.addTask(['gg', 'gg', new Date(1000, 10, 10)])
 
 // console.log(project1.taskArray[0], 'aaaaaa');
 // console.log(Projects.projectsArray);
-
-let x = new Date()
-console.log(typeof format(x, 'yyyy-mm-dd'));

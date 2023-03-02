@@ -1,13 +1,13 @@
+import { Project } from "./project";
+import { pubsub } from "./pubsub";
 
 export const Projects = {
     projectsArray: [],
-    
-    getProjectsArray: function () {
-        console.log("projectsarray:", projectsArray);
-    },
 
-    addProject: function (newProject) {
-        this.projectsArray.push(newProject)
-        pubsub.publish('projectsChanged', this.projectsArray)
+    addNewProject: function (newProjectName) {
+        console.log('working');
+        new Project(newProjectName)
     }
 }
+
+pubsub.subscribe('addNewProject', Projects.addNewProject)

@@ -7,6 +7,8 @@ const projects = document.querySelector('.projects')
 const newTaskBtn = document.querySelector('.new-button')
 const newTaskMenu = document.querySelector('.new-task-menu')
 const taskTemplate = document.querySelector('.task-template')
+const newProjectForm = document.querySelector('.new-project-form')
+const newProjectButton = document.querySelector('.new-project-button')
 
 //pubsub init
 pubsub.subscribe('projectsChanged', renderProjects)
@@ -15,8 +17,9 @@ pubsub.subscribe('taskUpdated', renderProject)
 
 //Always present event listeners
 newTaskBtn.addEventListener('click', toggleNewTaskMenu)
-// newTaskMenuAddBtn.addEventListener('click', addNewTask)
+newProjectButton.addEventListener('click', toggleNewProjectMenu)
 newTaskMenu.addEventListener('submit', addNewTask)
+newProjectForm.addEventListener('submit', addNewProject)
 
 function toggleNewTaskMenu() {
     if (newTaskMenu.style.display) {
@@ -25,6 +28,19 @@ function toggleNewTaskMenu() {
         newTaskMenu.style.display = 'block'
     }
     document.querySelector('.new-task-menu #datetime-local').value = format(new Date(), 'yyyy-MM-dd')
+}
+
+function toggleNewProjectMenu() {
+    if (newProjectForm.style.display) {
+        newProjectForm.style.display = ''
+    } else {
+        newProjectForm.style.display = 'block'
+    }
+}
+
+function addNewProject(e) {
+    e.preventDefault()
+    pubsub.publish('addNewProject', document.querySelector('.new-project-input').value)
 }
 
 function addNewTask(e) {

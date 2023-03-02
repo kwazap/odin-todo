@@ -86,15 +86,20 @@ function saveTaskChanges(e) {
     e.preventDefault()
     const taskDOM = this.parentElement.parentElement
     const targetProject = taskDOM.getAttribute('project')
+    const id = taskDOM.getAttribute('id')
     //[id, name, desc, date, prio]
     const editedTaskArguments = [
-        taskDOM.getAttribute('id'),
+        id,
         taskDOM.querySelector('.task-name').textContent,
         taskDOM.querySelector('#taskDescription').value,
         new Date(taskDOM.querySelector('#datetime-local').value),
         taskDOM.querySelector('input[name="edit-priority"]:checked').value
     ]
     pubsub.publish(`taskUpdated${targetProject}`, editedTaskArguments)
+
+    //use old id to reopen last edited task after rerender
+    const newTaskDOM = document.querySelector(`div[id='${id}']`)
+    newTaskDOM.querySelector('.task-details').style.display = 'block'
 }
 
 function toggleTaskEditMenu() {

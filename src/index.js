@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { Project } from "./project";
+import { Projects } from "./projects";
 import { renderProject, renderTask, renderProjects } from "./render";
 import "./style.css";
 
@@ -19,6 +20,8 @@ const project2 = new Project('ime')
 project2.addTask(['xxxx', 'bxxxxxbbbb', new Date(1000, 10, 10)])
 const project3 = new Project('asdasddsadasd')
 project3.addTask(['gg', 'gg', new Date(1000, 10, 10)])
+
+Projects.deleteProject('asdasddsadasd')
 
 // console.log(project1.taskArray[0], 'aaaaaa');
 // console.log(Projects.projectsArray);

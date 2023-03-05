@@ -14,7 +14,6 @@ const newProjectButton = document.querySelector('.new-project-button')
 pubsub.subscribe('projectsChanged', renderProjects)
 pubsub.subscribe('taskUpdated', renderProject)
 
-
 //Always present event listeners
 newTaskBtn.addEventListener('click', toggleNewTaskMenu)
 newProjectButton.addEventListener('click', toggleNewProjectMenu)
@@ -53,8 +52,6 @@ function addNewTask(e) {
         new Date(document.querySelector('#datetime-local').value),
         document.querySelector('input[name="new-priority"]:checked').value
     ]
-    console.log(taskArgumentArray)
-    // console.log('sending to project', taskArgumentArray, targetProject);
     pubsub.publish(`taskAddedto${targetProject}`, taskArgumentArray)
 }
 
@@ -112,7 +109,6 @@ function saveTaskChanges(e) {
         taskDOM.querySelector('input[name="edit-priority"]:checked').value
     ]
     pubsub.publish(`taskUpdated${targetProject}`, editedTaskArguments)
-
     //use old id to reopen last edited task after rerender
     const newTaskDOM = document.querySelector(`div[id='${id}']`)
     newTaskDOM.querySelector('.task-details').style.display = 'block'

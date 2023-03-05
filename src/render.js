@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { format, isAfter } from "date-fns"
 import { pubsub } from "./pubsub"
 
 //DOM cache
@@ -72,8 +72,16 @@ export function renderProject(Project) {
     clearTasks()
     newTaskMenu.querySelector('#project').value = Project.projectName
     const newTaskArray = Project.taskArray
+    let sortingArray = []
     for (let i = 0; i < newTaskArray.length; i++) {
         const element = newTaskArray[i]
+        sortingArray.push([element, Project.projectName, i])
+        sortingArray.sort(function (a, b) {       
+            return a[0].dueDate.getTime() - b[0].dueDate.getTime()
+        })
+    }
+    for (let i = 0; i < sortingArray.length; i++) {
+        const element = sortingArray[i][0]
         renderTask(element, Project.projectName, i)
     }
 }

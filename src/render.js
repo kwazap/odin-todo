@@ -1,4 +1,4 @@
-import { format, isAfter } from "date-fns"
+import { format } from "date-fns"
 import { pubsub } from "./pubsub"
 
 //DOM cache
@@ -9,6 +9,9 @@ const newTaskMenu = document.querySelector('.new-task-menu')
 const taskTemplate = document.querySelector('.task-template')
 const newProjectForm = document.querySelector('.new-project-form')
 const newProjectButton = document.querySelector('.new-project-button')
+const homeButton = document.querySelector('.home-button')
+const todayButton = document.querySelector('.today-button')
+const weekButton = document.querySelector('.week-button')
 
 //pubsub init
 pubsub.subscribe('projectsChanged', renderProjects)
@@ -19,6 +22,7 @@ newTaskBtn.addEventListener('click', toggleNewTaskMenu)
 newProjectButton.addEventListener('click', toggleNewProjectMenu)
 newTaskMenu.addEventListener('submit', addNewTask)
 newProjectForm.addEventListener('submit', addNewProject)
+homeButton.addEventListener('click', renderAll)
 
 function toggleNewTaskMenu() {
     if (newTaskMenu.style.display) {
@@ -68,21 +72,44 @@ export function renderProjects(newProjectsArray) {
     }); 
 }
 
+function renderAll() {
+    pubsub.subscribe('returnAll', getAll)
+    pubsub.publish('getAll')
+    function getAll(projectsArray) {
+        let unpackedProjects = []
+        console.log(projectsArray);
+        projectsArray.forEach(project => {
+            for (let i = 0; i < project.taskArray.length; i++) {
+                unpackedProjects.push([project.taskArray[i], project.projectName, project.taskArray[i].id])                
+                }
+            }
+        )
+        clearTasks()
+        for (let i = 0; i < unpackedProjects.length; i++) {
+            renderTask(unpackedProjects[i][0], unpackedProjects[i][1], unpackedProjects[i][2])            
+        }
+    }
+}
+
+function sortByDate(taskArray, projectName, i) {
+    let sortingArray = []
+    for (let i = 0; i < taskArray.length; i++) {
+        const element = taskArray[i]
+        sortingArray.push([element, projectName, i])
+    }
+    sortingArray.sort(function (a, b) {
+        return a[0].dueDate.getTime() - b[0].dueDate.getTime()
+    })
+    return sortingArray
+}
+
 export function renderProject(Project) {
     clearTasks()
     newTaskMenu.querySelector('#project').value = Project.projectName
-    const newTaskArray = Project.taskArray
-    let sortingArray = []
-    for (let i = 0; i < newTaskArray.length; i++) {
-        const element = newTaskArray[i]
-        sortingArray.push([element, Project.projectName, i])
-        sortingArray.sort(function (a, b) {       
-            return a[0].dueDate.getTime() - b[0].dueDate.getTime()
-        })
-    }
-    for (let i = 0; i < sortingArray.length; i++) {
-        const element = sortingArray[i][0]
-        renderTask(element, Project.projectName, i)
+    let sortedArray = sortByDate(Project.taskArray, Project.projectName, Project.id)
+    for (let i = 0; i < sortedArray.length; i++) {
+        const element = sortedArray[i][0]
+        renderTask(element, Project.projectName, element.id)
     }
 }
 
@@ -133,6 +160,7 @@ function toggleTaskEditMenu() {
 
 function removeTask() {
     const taskDOM = this.parentElement.parentElement
+    console.log('removing task', taskDOM.getAttribute('id'));
     pubsub.publish(`taskRemoved${taskDOM.getAttribute('project')}`, taskDOM.getAttribute('id'))
 }
 

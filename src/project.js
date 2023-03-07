@@ -14,7 +14,7 @@ class Project {
     }
 
     addTask([taskName, descritpion, datetime, priority]) {
-        this.taskArray.push(new Task(taskName, descritpion, datetime, priority))
+        this.taskArray.push(new Task(taskName, descritpion, datetime, priority, this.taskArray.length))
         pubsub.publish('taskUpdated', this)
     }
 
@@ -27,8 +27,7 @@ class Project {
     }
 
     removeTask(id) {
-        this.taskArray[id] = null
-        this.taskArray = this.taskArray.filter(n => n)
+        this.taskArray = this.taskArray.filter(task => task.id != id)
         pubsub.publish('taskUpdated', this)
     }
 }

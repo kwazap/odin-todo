@@ -18,7 +18,13 @@ export const Projects = {
             this.projectsArray = this.projectsArray.filter(n => n)
             pubsub.publish('projectsChanged', this.projectsArray)                        
         }
+    },
+
+    getProjects: function () {
+        console.log('AAAAAAUUUUGHH');
+        pubsub.publish('returnAll', this.projectsArray)
     }
 }
 
 pubsub.subscribe('addNewProject', Projects.addNewProject)
+pubsub.subscribe('getAll', Projects.getProjects.bind(Projects))

@@ -83,7 +83,17 @@ function renderAll() {
                 unpackedProjects.push([project.taskArray[i], project.projectName, project.taskArray[i].id])                
                 }
             }
-        )
+        )        
+        let sortingArray = []
+        for (let i = 0; i < unpackedProjects.length; i++) {
+            const task = unpackedProjects[i][0];
+            const projectName = unpackedProjects[i][1]
+            const id = unpackedProjects[i][2]
+            sortingArray.push([task, projectName, id])
+        }
+        sortingArray.sort(function (a, b) {
+            return a[0].dueDate.getTime() - b[0].dueDate.getTime()
+        })
         clearTasks()
         for (let i = 0; i < unpackedProjects.length; i++) {
             renderTask(unpackedProjects[i][0], unpackedProjects[i][1], unpackedProjects[i][2])            
@@ -91,11 +101,11 @@ function renderAll() {
     }
 }
 
-function sortByDate(taskArray, projectName, i) {
+function sortByDate(taskArray, projectName) {
     let sortingArray = []
     for (let i = 0; i < taskArray.length; i++) {
-        const element = taskArray[i]
-        sortingArray.push([element, projectName, i])
+        const task = taskArray[i]
+        sortingArray.push([task, projectName])
     }
     sortingArray.sort(function (a, b) {
         return a[0].dueDate.getTime() - b[0].dueDate.getTime()
@@ -106,14 +116,14 @@ function sortByDate(taskArray, projectName, i) {
 export function renderProject(Project) {
     clearTasks()
     newTaskMenu.querySelector('#project').value = Project.projectName
-    let sortedArray = sortByDate(Project.taskArray, Project.projectName, Project.id)
+    let sortedArray = sortByDate(Project.taskArray, Project.projectName)
     for (let i = 0; i < sortedArray.length; i++) {
-        const element = sortedArray[i][0]
-        renderTask(element, Project.projectName, element.id)
+        const task = sortedArray[i][0]
+        renderTask(task, Project.projectName, task.id)
     }
 }
 
-function renderTask(element, projectName, i) {
+function renderTask(element, projectName, id) {
     const newElement = taskTemplate.cloneNode(true)
     const dateString = format(element.dueDate, 'yyyy-MM-dd')
     newElement.className = 'task'
@@ -121,7 +131,7 @@ function renderTask(element, projectName, i) {
     newElement.querySelector('#datetime-local').value = dateString
     newElement.querySelector('span').textContent = element.taskName
     newElement.querySelector('#taskDescription').value = element.descritpion
-    newElement.setAttribute('id', i)
+    newElement.setAttribute('id', id)
     newElement.setAttribute('project', projectName)
     newElement.querySelector(`input[value="${element.priority}"]`).setAttribute('checked', true)
     newElement.querySelector('span').addEventListener('click', toggleTaskEditMenu)
